@@ -39,6 +39,8 @@
   <properties>
     <maven.compiler.source>16</maven.compiler.source>
     <maven.compiler.target>16</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
     <spring.boot.version>2.5.7</spring.boot.version>
   </properties>
 
@@ -50,14 +52,45 @@
     </repository>
     <repository>
       <id>aliyun-jcenter</id>
-      <name>Aliyun jcenter</name>
+      <name>Aliyun Jcenter</name>
       <url>https://maven.aliyun.com/repository/jcenter</url>
     </repository>
     <repository>
       <id>aliyun-public</id>
-      <name>Aliyun public</name>
+      <name>Aliyun Public</name>
       <url>https://maven.aliyun.com/repository/public</url>
     </repository>
   </repositories>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>${project.basedir}/src/main/java</directory>
+      </resource>
+      <resource>
+        <directory>${project.basedir}/src/main/resources</directory>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>${project.basedir}/src/test/java</directory>
+      </testResource>
+      <testResource>
+        <directory>${project.basedir}/src/test/resources</directory>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.plugin.version}</version>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.source}</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
