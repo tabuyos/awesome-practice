@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.tabuyos</groupId>
+  <artifactId>awesome-practice</artifactId>
+  <packaging>pom</packaging>
+  <version>0.1.0</version>
+  <modules>
+    <module>uaa</module>
+    <module>email</module>
+  </modules>
+
+  <name>Awesome Practice Project</name>
+  <description>Awesome Practice Project for Java in Action</description>
+  <inceptionYear>2021</inceptionYear>
+
+  <developers>
+    <developer>
+      <id>tabuyos</id>
+      <name>Aaron Liew</name>
+      <email>tabuyos@outlook.com</email>
+      <url>https://www.tabuyos.com</url>
+      <roles>
+        <role>Project Manager</role>
+        <role>Architect</role>
+      </roles>
+      <organization>tabuyos</organization>
+      <organizationUrl>https://www.tabuyos.com</organizationUrl>
+      <properties>
+        <dept>No</dept>
+      </properties>
+      <timezone>8</timezone>
+    </developer>
+  </developers>
+
+  <properties>
+    <maven.compiler.source>16</maven.compiler.source>
+    <maven.compiler.target>16</maven.compiler.target>
+    <spring.boot.version>2.5.7</spring.boot.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>aliyun-central</id>
+      <name>Aliyun Central</name>
+      <url>https://maven.aliyun.com/repository/central</url>
+    </repository>
+    <repository>
+      <id>aliyun-jcenter</id>
+      <name>Aliyun jcenter</name>
+      <url>https://maven.aliyun.com/repository/jcenter</url>
+    </repository>
+    <repository>
+      <id>aliyun-public</id>
+      <name>Aliyun public</name>
+      <url>https://maven.aliyun.com/repository/public</url>
+    </repository>
+  </repositories>
+
+</project>
