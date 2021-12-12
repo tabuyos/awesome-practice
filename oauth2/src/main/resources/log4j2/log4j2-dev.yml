@@ -1,0 +1,199 @@
+Configuration:
+  status: WARN
+  monitorInterval: 30
+  name: Log4jYAMLConfig
+  properties:
+    property:
+      - name: LOG_PATH
+        value: ${sys:logging.file.path:-logs/oauth}
+      - name: PROJECT_NAME
+        value: oauth
+      - name: LOG_EXCEPTION_CONVERSION_WORD
+        value: "%xwEx"
+      - name: LOG_LEVEL_PATTERN
+        value: "%5p"
+      - name: LOG_DATEFORMAT_PATTERN
+        value: "yyyy-MM-dd HH:mm:ss.SSS"
+      - name: FILE_LOG_PATTERN
+        value: "%d{${LOG_DATEFORMAT_PATTERN}} ${LOG_LEVEL_PATTERN} %pid --- [%20.30t] %-40.40C{1.} (%-3.4L line): %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}"
+      - name: CONSOLE_LOG_PATTERN
+        value: "%clr{%d{${LOG_DATEFORMAT_PATTERN}}}{faint} %clr{${LOG_LEVEL_PATTERN}} %clr{%pid}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40C{1.} (%-3.4L line)}{cyan} %clr{:}{faint} %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}"
+  thresholdFilter:
+    level: DEBUG
+  appenders:
+    Console:
+      name: Console
+      PatternLayout:
+        Pattern: ${sys:CONSOLE_LOG_PATTERN}
+    RollingFile:
+      # all 日志
+      - name: ROLLING_FILE
+        fileName: ${LOG_PATH}/${PROJECT_NAME}.log
+        filePattern: "${LOG_PATH}/historyLog/$${date:yyyy-MM}/${PROJECT_NAME}-%d{yyyy-MM-dd}-%i.log.gz"
+        PatternLayout:
+          pattern: ${sys:FILE_LOG_PATTERN}
+        Filters:
+          # 一定要先去除不接受的日志级别, 然后获取需要接受的日志级别, 当前接受 INFO-ERROR 级别
+          # OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL
+          ThresholdFilter:
+            - level: ERROR
+              onMatch: DENY
+              onMismatch: NEUTRAL
+            - level: INFO
+              onMatch: ACCEPT
+              onMismatch: DENY
+        Policies:
+          # 大小分类
+          SizeBasedTriggeringPolicy:
+            size: 50MB
+          # 按天分类
+          TimeBasedTriggeringPolicy:
+            modulate: true
+            interval: 1
+        # 文件最多100个
+        DefaultRolloverStrategy:
+          max: 100
+      # platform 日志
+      - name: PLATFORM_ROLLING_FILE
+        ignoreExceptions: false
+        fileName: ${LOG_PATH}/platform/${PROJECT_NAME}_platform.log
+        filePattern: "${LOG_PATH}/platform/$${date:yyyy-MM}/${PROJECT_NAME}-%d{yyyy-MM-dd}-%i.log.gz"
+        PatternLayout:
+          pattern: ${sys:FILE_LOG_PATTERN}
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: 50MB
+          TimeBasedTriggeringPolicy:
+            modulate: true
+            interval: 1
+        DefaultRolloverStrategy:
+          max: 100
+      # business 日志
+      - name: BUSSINESS_ROLLING_FILE
+        ignoreExceptions: false
+        fileName: ${LOG_PATH}/bussiness/${PROJECT_NAME}_bussiness.log
+        filePattern: "${LOG_PATH}/business/$${date:yyyy-MM}/${PROJECT_NAME}-%d{yyyy-MM-dd}-%i.log.gz"
+        PatternLayout:
+          pattern: ${sys:FILE_LOG_PATTERN}
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: 50MB
+          TimeBasedTriggeringPolicy:
+            modulate: true
+            interval: 1
+        DefaultRolloverStrategy:
+          max: 100
+      # exception 日志
+      - name: EXCEPTION_ROLLING_FILE
+        ignoreExceptions: false
+        fileName: ${LOG_PATH}/exception/${PROJECT_NAME}_exception.log
+        filePattern: "${LOG_PATH}/exception/$${date:yyyy-MM}/${PROJECT_NAME}-%d{yyyy-MM-dd}-%i.log.gz"
+        ThresholdFilter:
+          level: ERROR
+          onMatch: ACCEPT
+          onMismatch: DENY
+        PatternLayout:
+          pattern: ${sys:FILE_LOG_PATTERN}
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: 50MB
+          TimeBasedTriggeringPolicy:
+            modulate: true
+            interval: 1
+        DefaultRolloverStrategy:
+          max: 100
+      # DB 日志
+      - name: DB_ROLLING_FILE
+        ignoreExceptions: false
+        fileName: ${LOG_PATH}/db/${PROJECT_NAME}_db.log
+        filePattern: "${LOG_PATH}/db/$${date:yyyy-MM}/${PROJECT_NAME}-%d{yyyy-MM-dd}-%i.log.gz"
+        PatternLayout:
+          pattern: ${sys:FILE_LOG_PATTERN}
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: 50MB
+          TimeBasedTriggeringPolicy:
+            modulate: true
+            interval: 1
+        DefaultRolloverStrategy:
+          max: 100
+      # aspect-controller 日志
+      - name: ASPECT_CONTROLLER
+        ignoreExceptions: false
+        fileName: ${LOG_PATH}/aop/controller/${PROJECT_NAME}_controller.log
+        filePattern: "${LOG_PATH}/aop/controller/$${date:yyyy-MM}/${PROJECT_NAME}-%d{yyyy-MM-dd}-%i.log.gz"
+        PatternLayout:
+          pattern: ${sys:FILE_LOG_PATTERN}
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: 50MB
+          TimeBasedTriggeringPolicy:
+            modulate: true
+            interval: 1
+        DefaultRolloverStrategy:
+          max: 100
+      # aspect-repository 日志
+      - name: ASPECT_REPOSITORY
+        ignoreExceptions: false
+        fileName: ${LOG_PATH}/aop/repository/${PROJECT_NAME}_repository.log
+        filePattern: "${LOG_PATH}/aop/repository/$${date:yyyy-MM}/${PROJECT_NAME}-%d{yyyy-MM-dd}-%i.log.gz"
+        PatternLayout:
+          pattern: ${sys:FILE_LOG_PATTERN}
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: 50MB
+          TimeBasedTriggeringPolicy:
+            modulate: true
+            interval: 1
+        DefaultRolloverStrategy:
+          max: 100
+
+  Loggers:
+    Logger:
+      - name: platform
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: Console
+          - ref: PLATFORM_ROLLING_FILE
+      - name: business
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: Console
+          - ref: BUSSINESS_ROLLING_FILE
+      - name: exception
+        level: DEBUG
+        additivity: true
+        AppenderRef:
+          - ref: EXCEPTION_ROLLING_FILE
+      - name: database
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: Console
+          - ref: DB_ROLLING_FILE
+      - name: aspect-controller
+        level: DEBUG
+        additivity: false
+        AppenderRef:
+          - ref: Console
+          - ref: ASPECT_CONTROLLER
+      - name: aspect-repository
+        level: DEBUG
+        additivity: false
+        AppenderRef:
+          - ref: Console
+          - ref: ASPECT_REPOSITORY
+#      jooq log for sql
+      - name: org.jooq.tools.LoggerListener
+        level: DEBUG
+        additivity: false
+        AppenderRef:
+          - ref: Console
+
+    Root:
+      level: INFO
+      AppenderRef:
+        - ref: Console
+        - ref: ROLLING_FILE
