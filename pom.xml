@@ -12,6 +12,9 @@
     <module>uaa</module>
     <module>email</module>
     <module>oauth2</module>
+    <module>authentication-server</module>
+    <module>samples</module>
+    <module>oauth</module>
   </modules>
 
   <name>Awesome Practice Project</name>
