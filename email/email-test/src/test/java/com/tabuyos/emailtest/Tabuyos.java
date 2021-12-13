@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2021 TravelSky Technology Ltd. All Right Reserved.
+ * copyright(c) 2018-2021 tabuyos all right reserved.
  */
 package com.tabuyos.emailtest;
 
@@ -8,7 +8,7 @@ import java.util.function.Function;
 /**
  * Tabuyos
  *
- * @author bjliu
+ * @author tabuyos
  * @since 2021/11/23
  */
 public class Tabuyos {
