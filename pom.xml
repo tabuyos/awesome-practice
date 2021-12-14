@@ -15,6 +15,7 @@
     <module>authentication-server</module>
     <module>samples</module>
     <module>oauth</module>
+    <module>jwt</module>
   </modules>
 
   <name>Awesome Practice Project</name>
