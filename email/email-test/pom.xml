@@ -19,7 +19,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.tabuyos.email</groupId>
+      <groupId>com.tabuyos</groupId>
       <artifactId>email-server</artifactId>
       <version>0.1.0</version>
     </dependency>
