@@ -1,0 +1,173 @@
+//file:noinspection GroovyAssignabilityCheck
+//file:noinspection GrUnresolvedAccess
+group("com.tabuyos")
+version("1.0")
+
+def removeParentSrc = true
+
+ext["junit.version"] = "5.7.2"
+ext["log4j2.version"] = "2.17.0"
+ext["reactor.version"] = "2020.0.10"
+ext["netty.version"] = "4.1.66.Final"
+ext["vertx.version"] = "4.1.0"
+ext["spring-boot.version"] = "2.5.6"
+ext["spring-cloud.version"] = "2020.0.3"
+
+static def deleteDirectory(File file) {
+  if (file.isFile()) {
+    return file.delete()
+  } else {
+    file.listFiles().each {
+      deleteDirectory(it)
+    }
+  }
+  return file.delete()
+}
+
+allprojects {
+  group(group)
+  version(version)
+
+  repositories {
+    def ALIYUN_CENTRAL_URL = "https://maven.aliyun.com/repository/central/"
+    def ALIYUN_PUBLIC_URL = "https://maven.aliyun.com/repository/public/"
+    def TENCENT_PUBLIC_URL = "https://mirrors.cloud.tencent.com/nexus/repository/maven-public/"
+    def HUAWEI_PUBLIC_URL = "https://repo.huaweicloud.com/repository/maven/"
+
+    mavenLocal()
+    maven {
+      url HUAWEI_PUBLIC_URL
+      name "HuaweiPublic"
+    }
+    maven {
+      url TENCENT_PUBLIC_URL
+      name "TencentPublic"
+    }
+    maven {
+      url ALIYUN_CENTRAL_URL
+      name "AliyunCentral"
+    }
+    maven {
+      url ALIYUN_PUBLIC_URL
+      name "AliyunPublic"
+    }
+    mavenCentral()
+  }
+
+  tasks.register("showRepos") {
+    doLast {
+      println "All repos:"
+      println repositories.collect { it.name }
+    }
+  }
+}
+
+task resolveDependencies {
+  doLast {
+    rootProject.allprojects { project ->
+      Set<Configuration> configurations = project.buildscript.configurations + project.configurations
+      configurations
+        .findAll(c -> c.canBeResolved)
+        .forEach(c -> c.resolve())
+    }
+  }
+}
+
+subprojects {
+  apply plugin: "java-library"
+  apply plugin: "java"
+  apply plugin: "idea"
+
+  configurations {
+    developmentOnly
+    runtimeClasspath {
+      extendsFrom developmentOnly
+    }
+    compileOnly {
+      extendsFrom annotationProcessor
+    }
+  }
+
+  dependencies {
+    implementation(
+      platform(
+        "org.springframework.boot:spring-boot-dependencies:${rootProject.ext["spring-boot.version"]}"))
+    implementation(
+      platform(
+        "org.springframework.cloud:spring-cloud-dependencies:${rootProject.ext["spring-cloud.version"]}"))
+    implementation(
+      platform(
+        "org.apache.logging.log4j:log4j-bom:${rootProject.ext["log4j2.version"]}"))
+    implementation(
+      platform(
+        "io.projectreactor:reactor-bom:${rootProject.ext["reactor.version"]}"))
+    implementation(
+      platform(
+        "io.vertx:vertx-stack-depchain:${rootProject.ext["vertx.version"]}"))
+    implementation(
+      platform(
+        "org.junit:junit-bom:${rootProject.ext["junit.version"]}"))
+    implementation(
+      platform(
+        "io.netty:netty-bom:${rootProject.ext["netty.version"]}"))
+    constraints {
+      annotationProcessor(
+        "org.springframework.boot:spring-boot-configuration-processor:${rootProject.ext["spring-boot.version"]}")
+    }
+  }
+
+  configurations {
+    all {
+      implementation.exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+    }
+  }
+
+  compileJava.inputs.files(processResources)
+
+  test {
+    useJUnitPlatform()
+    // note: JavaVersion > JavaVersion.VERSION_1_8
+    jvmArgs("--illegal-access=deny")
+    jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
+  }
+
+  java {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
+  }
+
+  // download javadoc and source file.
+  idea {
+    module {
+      // downloadJavadoc = true
+      downloadSources = true
+    }
+  }
+
+  tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+  }
+
+  task createSrcDirs {
+    sourceSets*.java.srcDirs*.each {
+      it.mkdirs()
+    }
+    sourceSets*.resources.srcDirs*.each {
+      it.mkdirs()
+    }
+  }
+
+  task createBuildScript {
+    dependsOn(createSrcDirs)
+    File file = new File("${projectDir}${File.separator}build.gradle")
+    if (!file.exists()) {
+      file.createNewFile()
+    }
+    if (removeParentSrc) {
+      file = new File("${file.getParentFile().getParent()}${File.separator}src")
+      if (file.exists()) {
+        deleteDirectory(file)
+      }
+    }
+  }
+}
