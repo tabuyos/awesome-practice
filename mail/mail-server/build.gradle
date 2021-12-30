@@ -1,0 +1,15 @@
+dependencies {
+  api("org.apache.james:james-server-protocols-imap4:3.6.0")
+  api("org.apache.james:james-server-protocols-library:3.6.0")
+  api("org.apache.james:james-server-protocols-lmtp:3.6.0")
+  api("org.apache.james:james-server-protocols-managesieve:3.6.0")
+  api("org.apache.james:james-server-protocols-pop3:3.6.0")
+  api("org.apache.james:james-server-protocols-smtp:3.6.0")
+  api("org.apache.james.protocols:protocols-api:3.6.0")
+  api("org.apache.james.protocols:protocols-imap:3.6.0")
+  api("org.apache.james.protocols:protocols-lmtp:3.6.0")
+  api("org.apache.james.protocols:protocols-managesieve:3.6.0")
+  api("org.apache.james.protocols:protocols-netty:3.6.0")
+  api("org.apache.james.protocols:protocols-pop3:3.6.0")
+  api("org.apache.james.protocols:protocols-smtp:3.6.0")
+}

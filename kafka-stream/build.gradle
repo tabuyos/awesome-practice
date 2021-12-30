@@ -1,0 +1,5 @@
+dependencies {
+  implementation("org.springframework.boot:spring-boot-starter")
+  implementation("org.apache.kafka:kafka-streams")
+  testImplementation("org.springframework.boot:spring-boot-starter-test")
+}

@@ -1,0 +1,18 @@
+dependencies {
+  implementation(project(":mail:mail-server"))
+  implementation("org.apache.james:james-core:3.6.0")
+  implementation("org.apache.james:james-server-util:3.6.0")
+  implementation("org.apache.james:metrics-api:3.6.0")
+  implementation("org.apache.james.protocols:protocols-api:3.6.0")
+  implementation("org.apache.james.protocols:protocols-netty:3.6.0")
+  implementation("com.google.guava:guava:25.1-jre")
+  implementation("org.assertj:assertj-core:3.19.0")
+  implementation("io.netty:netty:3.10.6.Final")
+  implementation("javax.inject:javax.inject:1")
+  implementation("nl.jqno.equalsverifier:equalsverifier:3.5.2")
+  testImplementation("org.junit.jupiter:junit-jupiter")
+  testImplementation("org.apache.james:metrics-tests:3.6.0")
+  testImplementation("org.apache.james:testing-base:3.6.0")
+  testImplementation("org.apache.james.protocols:protocols-api:3.6.0:tests")
+  testImplementation("commons-net:commons-net:3.7.2")
+}
