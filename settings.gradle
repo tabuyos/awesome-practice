@@ -22,6 +22,7 @@ include(":netty:netty-test")
 
 include(":flink:flink-test")
 
+include(":zookeeper:zookeeper-service")
 include(":zookeeper:zookeeper-test")
 
 include(":pulsar:pulsar-test")

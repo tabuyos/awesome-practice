@@ -1,0 +1,7 @@
+ext["curator.version"] = "5.2.0"
+
+subprojects {
+  dependencies {
+    implementation("org.apache.curator:curator-recipes")
+  }
+}
