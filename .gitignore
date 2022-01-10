@@ -25,6 +25,7 @@ hs_err_pid*
 # user ignore
 bin
 out
+temp
 build
 target
 logs

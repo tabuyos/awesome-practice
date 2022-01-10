@@ -1,0 +1,15 @@
+# 应用服务 WEB 访问端口
+server:
+  port: 8081
+# 应用名称
+spring:
+  application:
+    name: apollo-test
+
+app:
+  id: apollo-test
+apollo:
+  bootstrap:
+    enabled: true
+    namespaces: tabuyos.yml
+  meta: http://localhost:8080

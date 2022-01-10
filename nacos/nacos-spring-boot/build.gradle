@@ -1,6 +1,7 @@
 //file:noinspection GradlePackageUpdate
 dependencies {
-  implementation("com.ctrip.framework.apollo:apollo-client:1.9.2")
+  implementation("com.alibaba.boot:nacos-config-spring-boot-starter:0.2.10")
+  implementation("com.alibaba.boot:nacos-discovery-spring-boot-starter:0.2.10")
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-log4j2")
 }

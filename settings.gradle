@@ -5,16 +5,29 @@ include(":mail:mail-client")
 include(":mail:mail-server")
 
 include(":logging:logging-test")
+include(":logging:logging-impl")
 
 include(":kafka:kafka-test")
 
 include(":kafka-stream:kafka-stream-test")
 
 include(":nacos:nacos-test")
+include(":nacos:nacos-spring")
+include(":nacos:nacos-spring-boot")
+include(":nacos:nacos-spring-cloud-config")
+include(":nacos:nacos-spring-cloud-provider")
+include(":nacos:nacos-spring-cloud-consumer")
+include(":nacos:nacos-docker")
+include(":nacos:nacos-dubbo-provider")
+include(":nacos:nacos-dubbo-consumer")
+include(":nacos:nacos-dubbo-common")
+include(":nacos:nacos-sync")
+include(":nacos:nacos-k8s")
 
 include(":dubbo:dubbo-test")
 
 include(":apollo:apollo-test")
+include(":apollo:apollo-server")
 
 include(":grpc:grpc-test")
 
@@ -44,3 +57,5 @@ include(":quarkus:quarkus-test")
 include(":helidon:helidon-test")
 
 include(":vertx:vertx-test")
+
+include(":hikaricp:hikaricp-test")

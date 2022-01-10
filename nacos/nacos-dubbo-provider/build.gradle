@@ -1,0 +1,10 @@
+//file:noinspection GradlePackageUpdate
+dependencies {
+  implementation(project(":nacos:nacos-dubbo-common"))
+  // implementation("org.apache.dubbo:dubbo:3.0.5")
+  implementation("org.apache.dubbo:dubbo-spring-boot-starter:3.0.5")
+  implementation("org.apache.dubbo:dubbo-registry-nacos:3.0.5")
+  // implementation("com.alibaba.nacos:nacos-client:2.0.3")
+  implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("org.springframework.boot:spring-boot-starter-log4j2")
+}

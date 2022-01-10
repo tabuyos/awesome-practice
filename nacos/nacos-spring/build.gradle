@@ -1,0 +1,9 @@
+//file:noinspection GradlePackageUpdate
+plugins {
+  id "war"
+}
+dependencies {
+  implementation("javax.servlet:javax.servlet-api")
+  implementation("org.springframework:spring-webmvc")
+  implementation("com.alibaba.nacos:nacos-spring-context:1.1.1")
+}
