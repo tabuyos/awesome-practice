@@ -8,3 +8,4 @@ awesome practice for anything in anywhere with Java
 - [x] Apollo
 - [x] Nacos
 - [x] Zookeeper
+- [x] Logging

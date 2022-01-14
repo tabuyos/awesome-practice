@@ -8,6 +8,8 @@ include(":logging:logging-test")
 include(":logging:logging-impl")
 
 include(":kafka:kafka-test")
+include(":kafka:kafka-p2p")
+include(":kafka:kafka-topic")
 
 include(":kafka-stream:kafka-stream-test")
 
