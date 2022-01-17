@@ -11,6 +11,7 @@ include(":kafka:kafka-test")
 include(":kafka:kafka-p2p")
 include(":kafka:kafka-topic")
 
+include(":kafka-stream:kafka-stream-cleandata")
 include(":kafka-stream:kafka-stream-test")
 
 include(":nacos:nacos-test")
@@ -61,3 +62,5 @@ include(":helidon:helidon-test")
 include(":vertx:vertx-test")
 
 include(":hikaricp:hikaricp-test")
+
+include(":flyway:flyway-test")

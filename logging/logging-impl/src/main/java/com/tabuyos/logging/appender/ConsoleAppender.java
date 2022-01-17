@@ -25,10 +25,13 @@ public class ConsoleAppender implements Appender, Closeable {
   @Override
   public void append(LoggingEvent event) {
     try {
+      byte[] bytes = event.toString().concat("\n").getBytes(StandardCharsets.UTF_8);
       if (event.getLevel() == Level.ERROR) {
-        err.write(event.toString().getBytes(StandardCharsets.UTF_8));
+        err.write(bytes);
+        err.flush();
       } else {
-        out.write(event.toString().getBytes(StandardCharsets.UTF_8));
+        out.write(bytes);
+        out.flush();
       }
     } catch (IOException e) {
       e.printStackTrace();

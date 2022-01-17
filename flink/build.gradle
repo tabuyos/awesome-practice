@@ -1,0 +1,5 @@
+subprojects {
+  dependencies {
+    implementation("org.apache.flink:flink-java:${rootProject.ext["flink.version"]}")
+  }
+}

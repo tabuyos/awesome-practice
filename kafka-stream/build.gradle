@@ -1,5 +1,12 @@
-dependencies {
-  implementation("org.springframework.boot:spring-boot-starter")
-  implementation("org.apache.kafka:kafka-streams")
-  testImplementation("org.springframework.boot:spring-boot-starter-test")
+//file:noinspection GradlePackageUpdate
+subprojects {
+  dependencies {
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("com.google.code.gson:gson")
+    implementation("org.apache.kafka:kafka-streams")
+    implementation("org.springframework.kafka:spring-kafka")
+    implementation("org.springframework.boot:spring-boot-starter-log4j2")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
+  }
 }

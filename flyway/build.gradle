@@ -1,0 +1,7 @@
+subprojects {
+  dependencies {
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.flywaydb:flyway-core")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+  }
+}

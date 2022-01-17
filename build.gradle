@@ -10,6 +10,7 @@ ext["log4j2.version"] = "2.17.1"
 ext["reactor.version"] = "2020.0.14"
 ext["netty.version"] = "4.1.72.Final"
 ext["vertx.version"] = "4.2.3"
+ext["flink.version"] = "1.14.2"
 ext["spring-boot.version"] = "2.6.2"
 ext["spring-cloud.version"] = "2021.0.0"
 
@@ -67,8 +68,8 @@ task resolveDependencies {
     rootProject.allprojects { project ->
       Set<Configuration> configurations = project.buildscript.configurations + project.configurations
       configurations
-        .findAll(c -> c.canBeResolved)
-        .forEach(c -> c.resolve())
+          .findAll(c -> c.canBeResolved)
+          .forEach(c -> c.resolve())
     }
   }
 }
@@ -90,29 +91,32 @@ subprojects {
 
   dependencies {
     implementation(
-      platform(
-        "org.springframework.boot:spring-boot-dependencies:${rootProject.ext["spring-boot.version"]}"))
+        platform(
+            "org.springframework.boot:spring-boot-dependencies:${rootProject.ext["spring-boot.version"]}"))
     implementation(
-      platform(
-        "org.springframework.cloud:spring-cloud-dependencies:${rootProject.ext["spring-cloud.version"]}"))
+        platform(
+            "org.springframework.cloud:spring-cloud-dependencies:${rootProject.ext["spring-cloud.version"]}"))
     implementation(
-      platform(
-        "org.apache.logging.log4j:log4j-bom:${rootProject.ext["log4j2.version"]}"))
+        platform(
+            "org.apache.logging.log4j:log4j-bom:${rootProject.ext["log4j2.version"]}"))
     implementation(
-      platform(
-        "io.projectreactor:reactor-bom:${rootProject.ext["reactor.version"]}"))
+        platform(
+            "io.projectreactor:reactor-bom:${rootProject.ext["reactor.version"]}"))
     implementation(
-      platform(
-        "io.vertx:vertx-stack-depchain:${rootProject.ext["vertx.version"]}"))
+        platform(
+            "io.vertx:vertx-stack-depchain:${rootProject.ext["vertx.version"]}"))
     implementation(
-      platform(
-        "org.junit:junit-bom:${rootProject.ext["junit.version"]}"))
+        platform(
+            "org.junit:junit-bom:${rootProject.ext["junit.version"]}"))
     implementation(
-      platform(
-        "io.netty:netty-bom:${rootProject.ext["netty.version"]}"))
+        platform(
+            "io.netty:netty-bom:${rootProject.ext["netty.version"]}"))
+    implementation(
+        platform(
+            "org.apache.flink:flink-parent:${rootProject.ext["flink.version"]}"))
     constraints {
       annotationProcessor(
-        "org.springframework.boot:spring-boot-configuration-processor:${rootProject.ext["spring-boot.version"]}")
+          "org.springframework.boot:spring-boot-configuration-processor:${rootProject.ext["spring-boot.version"]}")
     }
   }
 

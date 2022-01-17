@@ -337,8 +337,417 @@ ack参数配置：
 
   [![14.png](http://dockone.io/uploads/article/20210706/1e839c1c3e6b278e4eade55d8168ad65.png)](http://dockone.io/uploads/article/20210706/1e839c1c3e6b278e4eade55d8168ad65.png)
 
-
 producer返ack，0无落盘直接返，1只leader落盘然后返，-1全部落盘然后返。
+
+# 消费者分区分配策略
+
+消费方式：
+
+consumer采用pull拉的方式来从broker中读取数据。
+
+push推的模式很难适应消费速率不同的消费者，因为消息发送率是由broker决定的，它的目标是尽可能以最快的速度传递消息，但是这样容易造成consumer来不及处理消息，典型的表现就是拒绝服务以及网络拥塞。而pull方式则可以让consumer根据自己的消费处理能力以适当的速度消费消息。
+
+pull模式不足在于如果Kafka中没有数据，消费者可能会陷入循环之中 (因为消费者类似监听状态获取数据消费的)，一直返回空数据，针对这一点，Kafka的消费者在消费数据时会传入一个时长参数timeout，如果当前没有数据可供消费，consumer会等待一段时间之后再返回，时长为timeout。
+
+## 分区分配策略
+
+一个consumer group中有多个consumer，一个topic有多个partition，所以必然会涉及到partition的分配问题，即确定那个partition由那个consumer消费的问题。
+
+Kafka的两种分配策略：
+
+- round-robin循环
+- range
+
+
+Round-Robin：
+
+主要采用轮询的方式分配所有的分区，该策略主要实现的步骤：
+
+假设存在三个topic：t0/t1/t2，分别拥有1/2/3个分区，共有6个分区，分别为t0-0/t1-0/t1-1/t2-0/t2-1/t2-2，这里假设我们有三个Consumer，C0、C1、C2，订阅情况为C0：t0，C1：t0、t1，C2：t0/t1/t2。
+
+此时round-robin采取的分配方式，则是按照分区的字典对分区和消费者进行排序，然后对分区进行循环遍历，遇到自己订阅的则消费，否则向下轮询下一个消费者。即按照分区轮询消费者，继而消息被消费。
+
+[![16.png](http://dockone.io/uploads/article/20210706/59b12598c28be09e27c70f7978d4a240.png)](http://dockone.io/uploads/article/20210706/59b12598c28be09e27c70f7978d4a240.png)
+
+
+分区在循环遍历消费者，自己被当前消费者订阅，则消息与消费者共同向下（消息被消费），否则消费者向下消息继续遍历（消息没有被消费）。轮询的方式会导致每个Consumer所承载的分区数量不一致，从而导致各个Consumer压力不均。上面的C2因为订阅的比较多，导致承受的压力也相对较大。
+
+Range：
+
+Range的重分配策略，首先计算各个Consumer将会承载的分区数量，然后将指定数量的分区分配给该Consumer。假设存在两个Consumer，C0和C1，两个Topic，t0和t1，这两个Topic分别都有三个分区，那么总共的分区有6个，t0-0，t0-1，t0-2，t1-0，t1-1，t1-2。分配方式如下：
+
+- Range按照topic一次进行分配，即消费者遍历topic，t0，含有三个分区，同时有两个订阅了该topic的消费者，将这些分区和消费者按照字典序排列。
+- 按照平均分配的方式计算每个Consumer会得到多少个分区，如果没有除尽，多出来的分区则按照字典序挨个分配给消费者。按照此方式以此分配每一个topic给订阅的消费者，最后完成topic分区的分配。
+
+
+
+[![17.png](http://dockone.io/uploads/article/20210706/650ee438a52cc86e77fd7fccb722d292.png)](http://dockone.io/uploads/article/20210706/650ee438a52cc86e77fd7fccb722d292.png)
+
+
+按照range的方式进行分配，本质上是以此遍历每个topic，然后将这些topic按照其订阅的consumer数进行平均分配，多出来的则按照consumer的字典序挨个分配，这种方式会导致在前面的consumer得到更多的分区，导致各个consumer的压力不均衡。
+
+## 消费者offset的存储
+
+由于Consumer在消费过程中可能会出现断电宕机等故障，Consumer恢复以后，需要从故障前的位置继续消费，所以Consumer需要实时记录自己消费到了那个offset，以便故障恢复后继续消费。
+
+[![18.png](http://dockone.io/uploads/article/20210706/68a2241ba105d0dd47290df8fb98cc9b.png)](http://dockone.io/uploads/article/20210706/68a2241ba105d0dd47290df8fb98cc9b.png)
+
+
+Kafka0.9版本之前，consumer默认将offset保存在zookeeper中，从0.9版本之后，consumer默认将offset保存在kafka一个内置的topic中，该topic为__consumer_offsets。
+
+```
+# 利用__consumer_offsets读取数据
+./kafka-console-consumer.sh --topic __consumer_offsets --bootstrap-server 192.168.233.129:19092,192.168.233.129:19093,192.168.233.129:19094  --formatter "kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter" --consumer.config ../config/consumer.properties --from-beginning
+```
+
+
+
+## 消费者组案例
+
+测试同一个消费者组中的消费者，同一时刻是能有一个消费者消费。
+
+```
+# 首先需要修改config/consumer.properties文件，可以修改为一个临时文件
+group.id=xxxx
+# 启动消费者
+./kafka-console-consumer.sh --bootstrap-server 192.168.233.129:19093 --topic test --consumer.config ../config/consumer.properties
+# 启动生产者
+./kafka-console-producer.sh --broker-list 192.168.233.129:19092 --topic test
+# 发送消息
+```
+
+
+结果图：
+
+[![19.jpeg](http://dockone.io/uploads/article/20210706/858028ed82063bf1085cbc972ff00445.jpeg)](http://dockone.io/uploads/article/20210706/858028ed82063bf1085cbc972ff00445.jpeg)
+
+
+可以发现选定了一个组的，一条消息只会被一个组中的一个消费者所消费，只有ctrl+c退出了其中的一个消费者，另一个消费者才有机会进行消费。
+
+## Kafka中zookeeper的作用
+
+Kafka集群中有一个broker会被选举为Controller，负责管理集群broker的上下线、所有topic的分区副本分配和leader的选举等工作。Controller的工作管理是依赖于Kooeeper的。
+
+# API消费者
+
+## 简单消费者
+
+Kafka提供了自动提交offset的功能enable.auto.commit=true;
+
+```
+/**
+* @author caoduanxi
+* @Date 2021/1/13 12:32
+* @Motto Keep thinking, keep coding!
+* Kafka的Consumer消费者
+*/
+public class CustomConsumer {
+public static void main(String[] args) {
+    Properties props = new Properties();
+    props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.233.129:19092");
+    // 设置消费者组
+    props.put(ConsumerConfig.GROUP_ID_CONFIG, "abc");
+    // 设置offset的自动提交
+    props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
+    // 设置offset自动化提交的间隔时间
+    props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
+    // 生产者是序列化，消费者则为反序列化
+    props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+    props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+    KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+    // 这里需要订阅具体的topic
+    consumer.subscribe(Collections.singletonList("customconsumer"));
+    // 一直处于监听状态中
+    while (true) {
+        // 因为消费者是通过pull获取消息消费的，这里设置间隔100ms
+        ConsumerRecords<String, String> consumerRecords = consumer.poll(Duration.ofMillis(100));
+        // 对获取到的结果遍历
+        for (ConsumerRecord<String, String> consumerRecord : consumerRecords) {
+            System.out.printf("offset=%d, key=%s, value=%s\n", consumerRecord.offset(),consumerRecord.key(),consumerRecord.value());
+        }
+    }
+}
+} 
+```
+
+
+输出结果：
+
+```
+offset=0, key=test-1, value=test-1
+offset=1, key=test-2, value=test-2
+offset=2, key=test-3, value=test-3
+offset=3, key=test-4, value=test-4
+offset=4, key=test-5, value=test-5
+offset=5, key=test-6, value=test-6
+offset=6, key=test-7, value=test-7
+offset=7, key=test-8, value=test-8
+offset=8, key=test-9, value=test-9
+offset=9, key=test-10, value=test-10
+```
+
+
+
+## 消费者重置offset
+
+Consumer消费数据时的可靠性很容易保证，因为数据在Kafka中是持久化的，不用担心数据丢失问题。但由于Consumer在消费过程中可能遭遇断电或者宕机等故障，Consumer恢复之后，需要从故障前的位置继续消费，所以Consumer需要实时记录自己消费的offset位置，以便故障恢复后可以继续消费。
+
+offset的维护是Consumer消费数据必须考虑的问题。
+
+```
+// offset重置，需要设置自动重置为earliest
+props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,"earliest");
+```
+
+
+将消费者组的id变换一下即可，否则由于一条消息只能够被一个消费者组中的消费者消费一次，此时不会重新消费之前的消息，即使设置了offset重置也没有作用。
+
+注意，这里的auto.offset.reset="earliest"的作用等同于在linux控制台，消费者监听的时候添加的--from-beginning命令。
+
+auto.offset.reset取值：
+
+- earliest：重置offset到最早的位置
+- latest：重置offset到最新的位置，默认值
+- none：如果在消费者组中找不到前一个offset则抛出异常
+- anything else：抛出异常给消费者
+
+
+
+## 消费者保存offset读取问题
+
+enable.auto.commit=true即自动提交offset。默认是自动提交的。
+
+## 消费者手动提交offset
+
+自动提交offset十分便利，但是由于其实基于时间提交的，开发人员难以把握offset提交的时机，因此kafka提供了手动提交offset的API。
+
+手动提交offset的方法主要有两种：
+
+- commitSync：同步提交
+- commitAsync：异步提交
+
+
+相同点：两种方式的提交都会将本次poll拉取的一批数据的最高的偏移量提交。
+
+不同点：commitSync阻塞当前线程，持续到提交成功，失败会自动重试（由于不可控因素导致，也会出现提交失败）；而commitAsync则没有失败重试机制，有可能提交失败。
+
+同步提交：
+
+```
+/**
+* @author caoduanxi
+* @Date 2021/1/13 13:28
+* @Motto Keep thinking, keep coding!
+* Kafka消费者同步提交offset
+*/
+public class SyncCommitOffset {
+public static void main(String[] args) {
+    Properties props = new Properties();
+    props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.233.129:19092");
+    // 设置消费者组
+    props.put(ConsumerConfig.GROUP_ID_CONFIG, "abcd");
+    // 设置offset的自动提交为false
+    props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
+    props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
+    props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+    props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+    KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+    consumer.subscribe(Collections.singletonList("customconsumer"));
+    while (true) {
+        ConsumerRecords<String, String> consumerRecords = consumer.poll(Duration.ofMillis(100));
+        // 对获取到的结果遍历
+        for (ConsumerRecord<String, String> consumerRecord : consumerRecords) {
+            System.out.printf("offset=%d, key=%s, value=%s\n", consumerRecord.offset(),consumerRecord.key(),consumerRecord.value());
+        }
+        // 同步提交,会一直阻塞直到提交成功,这里可以设置超时时间,如果阻塞超过超时时间则释放
+        consumer.commitSync();
+    }
+}
+} 
+```
+
+
+异步提交：
+
+异步提交多出一个offset提交的回调函数。
+
+```
+consumer.commitAsync(new OffsetCommitCallback() {
+@Override
+public void onComplete(Map<TopicPartition, OffsetAndMetadata> offsets, Exception exception) {
+    if (exception != null) {
+        System.out.println("Commit failed, offset = " + offsets);
+    }
+}
+}); 
+```
+
+
+
+## 数据漏消费和重复消费分析
+
+无论是同步提交还是异步提交offset，都可能会造成数据的漏消费或者重复消费，先提交offset后消费，有可能造成数据的漏消费，而先消费再提交offset，有可能会造成数据的重复消费。
+
+## 自定义存储offset
+
+Kafka 0.9版本之前，offset存储在ZooKeeper中，0.9版本及之后的版本，默认将offset存储在Kafka的一个内置的topic中，除此之外，Kafka还可以选择自定义存储offset数据。offse的维护相当繁琐，因为需要考虑到消费者的rebalance过程：
+
+当有新的消费者加入消费者组、已有的消费者退出消费者组或者订阅的主体分区发生了变化，会触发分区的重新分配操作，重新分配的过程称为Rebalance。
+
+消费者发生Rebalace之后，每个消费者消费的分区就会发生变化，因此消费者需要先获取到重新分配到的分区，并且定位到每个分区最近提交的offset位置继续消费。（High Water高水位）
+
+```
+/**
+* @author caoduanxi
+* @Date 2021/1/13 13:41
+* @Motto Keep thinking, keep coding!
+* Kafka自定义offset提交
+*/
+public class CustomOffsetCommit {
+private static Map<TopicPartition, Long> currentOffset = new HashMap<>();
+
+public static void main(String[] args) {
+    Properties props = new Properties();
+    props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.233.129:19092");
+    // 设置消费者组
+    props.put(ConsumerConfig.GROUP_ID_CONFIG, "abcd");
+    // 设置offset的自动提交为false
+    props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
+    props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+    props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+    KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+    // 这里的意思是订阅的时候同时定义Consumer重分配的监听器接口
+    consumer.subscribe(Collections.singletonList("customconsumer"), new ConsumerRebalanceListener() {
+        // rebalance发生之前调用
+        @Override
+        public void onPartitionsRevoked(Collection<TopicPartition> partitions) {
+            commitOffset(currentOffset);
+        }
+
+        // rebalance发生之后调用
+        @Override
+        public void onPartitionsAssigned(Collection<TopicPartition> partitions) {
+            currentOffset.clear();
+            for (TopicPartition partition : partitions) {
+                // 定位到最新的offset位置
+                consumer.seek(partition, getOffset(partition));
+            }
+        }
+    });
+    while (true) {
+        ConsumerRecords<String, String> consumerRecords = consumer.poll(Duration.ofMillis(100));
+        for (ConsumerRecord<String, String> consumerRecord : consumerRecords) {
+            System.out.printf("offset=%d, key=%s, value=%s\n", consumerRecord.offset(), consumerRecord.key(), consumerRecord.value());
+            // 记录下当前的offset
+            currentOffset.put(new TopicPartition(consumerRecord.topic(), consumerRecord.partition()), consumerRecord.offset());
+        }
+    }
+}
+
+// 获取某分区最新的offset
+private static long getOffset(TopicPartition topicPartition) {
+    return 0;
+}
+
+// 提交该消费者所有分区的offset
+private static void commitOffset(Map<TopicPartition, Long> currentOffset) {
+
+}
+} 
+```
+
+
+即自己记录下需要提交的offset，利用Rebalance分区监听器监听rebalance事件，一旦发生rebalance，先将offset提交，分区之后则找到最新的offset位置继续消费即可
+
+# 自定义拦截器
+
+拦截器原理：
+
+Producer拦截器interceptor是在Kafka0.10版本引入的，主要用于Clients端的定制化控制逻辑。对于Producer而言，interceptor使得用户在消息发送之前以及Producer回调逻辑之前有机会对消息做一些定制化需求，比如修改消息的展示样式等，同时Producer允许用户指定多个interceptor按序作用于同一条消息从而形成一个拦截链interceptor chain，Interceptor实现的接口为ProducerInterceptor，主要有四个方法：
+
+- configure(Map<String, ?> configs)：获取配置信息和初始化数据时调用
+- onSend(ProducerRecord record)：该方法封装在KafkaProducer.send()方法中，运行在用户主线程中，Producer确保在消息被序列化之前及计算分区前调用该方法，并且通常都是在Producer回调逻辑出发之前。
+- onAcknowledgement(RecordMetadata metadata, Exception exception)：onAcknowledgement运行在Producer的IO线程中，因此不要再该方法中放入很重的逻辑，否则会拖慢Producer的消息发送效率。
+- close()：关闭inteceptor，主要用于执行资源清理工作。
+
+
+Inteceptor可能被运行到多个线程中，在具体使用时需要自行确保线程安全，另外倘若指定了多个interceptor，则producer将按照指定顺序调用它们，并紧紧是捕获每个interceptor可能抛出的异常记录到错误日志中而非向上传递。
+
+自定义加入时间戳拦截器：
+
+```
+/**
+* @author caoduanxi
+* @Date 2021/1/13 14:15
+* @Motto Keep thinking, keep coding!
+*/
+public class TimeInterceptor implements ProducerInterceptor<String, String> {
+@Override
+public ProducerRecord<String, String> onSend(ProducerRecord<String, String> record) {
+    return new ProducerRecord(record.topic(), record.partition(), record.timestamp(), record.key(),
+            "TimeInterceptor:" + System.currentTimeMillis() + "," + record.value());
+}
+// 其余方法省略
+}  
+```
+
+
+自定义消息发送统计拦截器：
+
+```
+/**
+* @author caoduanxi
+* @Date 2021/1/13 14:18
+* @Motto Keep thinking, keep coding!
+*/
+public class CounterInterceptor implements ProducerInterceptor<String, String> {
+private int errorCounter = 0;
+private int successCounter = 0;
+
+@Override
+public ProducerRecord<String, String> onSend(ProducerRecord<String, String> record) {
+    return record;
+}
+
+@Override
+public void onAcknowledgement(RecordMetadata metadata, Exception exception) {
+    if (exception == null) {
+        successCounter++;
+    } else {
+        errorCounter++;
+    }
+}
+
+@Override
+public void close() {
+    // 输出结果，结束输出
+    System.out.println("Sent successful:" + successCounter);
+    System.out.println("Sent failed:" + errorCounter);
+}
+} 
+```
+
+
+在CustomProducer中加入拦截器：
+
+```
+// 加入拦截器
+List<Object> interceptors = new ArrayList<>();
+interceptors.add(TimeInterceptor.class);
+interceptors.add(CounterInterceptor.class);
+props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, interceptors);
+```
+
+
+
+[![28.jpeg](http://dockone.io/uploads/article/20210706/142829476ed55d781925c8f390d2a0a6.jpeg)](http://dockone.io/uploads/article/20210706/142829476ed55d781925c8f390d2a0a6.jpeg)
+
+
+
+[![29.jpeg](http://dockone.io/uploads/article/20210706/e69e051bdbd9276da447ad9cb135c90e.jpeg)](http://dockone.io/uploads/article/20210706/e69e051bdbd9276da447ad9cb135c90e.jpeg)
+
+
+**注意：拦截器的close()方法是收尾的，一定要调用Producer.close()方法，否则拦截器的close()方法不会被调用。**
 
 # kafka消费者的负载均衡策略
 
@@ -364,7 +773,7 @@ producer返ack，0无落盘直接返，1只leader落盘然后返，-1全部落�
 
 
 
-# Kafka Producer 异步发送消息居然也会阻塞？
+# Kafka Producer 异步发送消息居然也会阻塞(缓存空间不足导致)？
 
 Kafka 一直以来都以高吞吐量的特性而家喻户晓，就在上周，在一个性能监控项目中，需要使用到 Kafka 传输海量消息，在这过程中遇到了一个 Kafka Producer 异步发送消息会被阻塞的问题，导致生产端发送耗时很大。
 

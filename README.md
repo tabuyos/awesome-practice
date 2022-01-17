@@ -9,3 +9,6 @@ awesome practice for anything in anywhere with Java
 - [x] Nacos
 - [x] Zookeeper
 - [x] Logging
+- [x] Kafka
+- [x] Kafka-Stream
+- [ ] Flink
