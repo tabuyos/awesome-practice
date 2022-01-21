@@ -1,5 +1,30 @@
 subprojects {
   dependencies {
     implementation("org.apache.flink:flink-java:${rootProject.ext["flink.version"]}")
+    implementation("org.apache.flink:flink-clients_2.12:${rootProject.ext["flink.version"]}")
+    implementation("org.apache.flink:flink-scala_2.12:${rootProject.ext["flink.version"]}")
+    implementation("org.apache.flink:flink-streaming-scala_2.12:${rootProject.ext["flink.version"]}")
+    implementation("org.apache.flink:flink-streaming-java_2.12:${rootProject.ext["flink.version"]}")
+    implementation("org.apache.flink:flink-table-api-scala-bridge_2.12:${rootProject.ext["flink.version"]}")
+    implementation("org.apache.flink:flink-table-api-java-bridge_2.12:${rootProject.ext["flink.version"]}")
+    implementation("org.apache.flink:flink-table-common:${rootProject.ext["flink.version"]}")
+    implementation("org.apache.flink:flink-connector-kafka_2.12:${rootProject.ext["flink.version"]}")
+    implementation("org.apache.flink:flink-sql-connector-kafka_2.12:${rootProject.ext["flink.version"]}")
+    implementation("org.apache.flink:flink-connector-jdbc_2.12:${rootProject.ext["flink.version"]}")
+    implementation("org.apache.flink:flink-csv:${rootProject.ext["flink.version"]}")
+    implementation("org.springframework.boot:spring-boot-starter-log4j2")
+    implementation("org.mariadb.jdbc:mariadb-java-client")
+    implementation("io.vertx:vertx-core")
+    implementation("io.vertx:vertx-jdbc-client")
+    implementation("io.vertx:vertx-redis-client")
+    implementation("org.scala-lang:scala-library:${rootProject.ext["scala.version"]}")
+    testImplementation("org.apache.flink:flink-test-utils-junit:${rootProject.ext["flink.version"]}")
+    testImplementation("org.apache.flink:flink-runtime:${rootProject.ext["flink.version"]}")
+    testImplementation("org.apache.flink:flink-test-utils_2.12:${rootProject.ext["flink.version"]}")
+  }
+
+  java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
   }
 }

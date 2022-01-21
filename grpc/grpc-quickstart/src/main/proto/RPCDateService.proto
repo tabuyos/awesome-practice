@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+// 选项配置
+option java_package = "com.tabuyos.grpc.quickstart.api";
+option java_outer_classname = "RPCDateServiceApi";
+
+// 定义包名
+package com.tabuyos.grpc.quickstart.api;
+
+// 服务接口.定义请求参数和相应结果
+service RPCDateService {
+  rpc getDate(RPCDateRequest) returns (RPCDateResponse) {}
+}
+
+// 定义请求体
+message RPCDateRequest {
+  string userName = 1;
+}
+
+// 定义响应体
+message RPCDateResponse {
+  string serverDate = 1;
+}

@@ -1,0 +1,9 @@
+subprojects {
+  dependencies {
+    implementation("com.zaxxer:HikariCP:5.0.1")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-log4j2")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+  }
+}

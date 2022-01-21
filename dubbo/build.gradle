@@ -1,0 +1,10 @@
+subprojects {
+  dependencies {
+    implementation("org.apache.dubbo:dubbo:3.0.5")
+    implementation("org.apache.curator:curator-recipes")
+    implementation("org.apache.curator:curator-framework")
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
+    implementation("org.apache.dubbo:dubbo-dependencies-zookeeper:3.0.5")
+    implementation("org.springframework.boot:spring-boot-starter-log4j2")
+  }
+}

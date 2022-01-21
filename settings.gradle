@@ -27,15 +27,18 @@ include(":nacos:nacos-dubbo-common")
 include(":nacos:nacos-sync")
 include(":nacos:nacos-k8s")
 
+include(":dubbo:dubbo-quickstart")
 include(":dubbo:dubbo-test")
 
 include(":apollo:apollo-test")
 include(":apollo:apollo-server")
 
 include(":grpc:grpc-test")
+include(":grpc:grpc-quickstart")
 
 include(":netty:netty-test")
 
+include(":flink:flink-quickstart")
 include(":flink:flink-test")
 
 include(":zookeeper:zookeeper-service")
@@ -61,6 +64,9 @@ include(":helidon:helidon-test")
 
 include(":vertx:vertx-test")
 
+include(":hikaricp:hikaricp-springboot")
+include(":hikaricp:hikaricp-quickstart")
 include(":hikaricp:hikaricp-test")
 
 include(":flyway:flyway-test")
+include(":flyway:flyway-quickstart")

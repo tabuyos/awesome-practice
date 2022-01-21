@@ -11,4 +11,19 @@ awesome practice for anything in anywhere with Java
 - [x] Logging
 - [x] Kafka
 - [x] Kafka-Stream
-- [ ] Flink
+- [x] Flink
+- [x] Flyway
+- [x] gRpc
+- [x] Dubbo
+- [ ] HikariCP
+- [ ] Istio
+- [ ] K8S
+- [ ] Mail
+- [ ] Helidon
+- [ ] Quarkus
+- [ ] Micronaut
+- [ ] Microprofile
+- [ ] Netty
+- [ ] Pulsar
+- [ ] RocketMQ
+- [ ] Vert.X
