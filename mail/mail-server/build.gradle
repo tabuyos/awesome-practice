@@ -1,15 +1,68 @@
+//file:noinspection GradlePackageUpdate
 dependencies {
-  api("org.apache.james:james-server-protocols-imap4:3.6.0")
-  api("org.apache.james:james-server-protocols-library:3.6.0")
-  api("org.apache.james:james-server-protocols-lmtp:3.6.0")
-  api("org.apache.james:james-server-protocols-managesieve:3.6.0")
-  api("org.apache.james:james-server-protocols-pop3:3.6.0")
-  api("org.apache.james:james-server-protocols-smtp:3.6.0")
-  api("org.apache.james.protocols:protocols-api:3.6.0")
-  api("org.apache.james.protocols:protocols-imap:3.6.0")
-  api("org.apache.james.protocols:protocols-lmtp:3.6.0")
-  api("org.apache.james.protocols:protocols-managesieve:3.6.0")
-  api("org.apache.james.protocols:protocols-netty:3.6.0")
-  api("org.apache.james.protocols:protocols-pop3:3.6.0")
-  api("org.apache.james.protocols:protocols-smtp:3.6.0")
+  api("org.apache.james:apache-james-mailbox-jpa:${rootProject.ext["james.version"]}")
+  api("org.apache.james:apache-james-mailbox-lucene:${rootProject.ext["james.version"]}")
+  api("org.apache.james:apache-james-mailbox-memory:${rootProject.ext["james.version"]}")
+  api("org.apache.james:apache-james-mailbox-spring:${rootProject.ext["james.version"]}")
+  // api("org.apache.james:james-server-cli:${rootProject.james["flink.version"]}")
+  api("org.apache.james:james-server-core:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-data-api:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-data-file:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-data-jdbc:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-data-jpa:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-data-ldap:${rootProject.ext["james.version"]}")
+  // api("org.apache.james:james-server-data-library:${rootProject.james["flink.version"]}")
+  api("org.apache.james:james-server-dnsservice-api:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-dnsservice-dnsjava:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-dnsservice-library:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-fetchmail:${rootProject.ext["james.version"]}")
+  // api("org.apache.james:james-server-filesystem-api:${rootProject.james["flink.version"]}")
+  // api("org.apache.james:james-server-lifecycle-api:${rootProject.james["flink.version"]}")
+  api("org.apache.james:james-server-mailbox-adapter:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-mailet-dkim:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-mailetcontainer-api:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-mailetcontainer-camel:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-mailets:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-protocols-imap4:${rootProject.ext["james.version"]}")
+  // api("org.apache.james:james-server-protocols-library:${rootProject.james["flink.version"]}")
+  api("org.apache.james:james-server-protocols-lmtp:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-protocols-managesieve:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-protocols-pop3:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-protocols-smtp:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-queue-activemq:${rootProject.ext["james.version"]}")
+  // api("org.apache.james:james-server-queue-api:${rootProject.james["flink.version"]}")
+  api("org.apache.james:james-server-queue-file:${rootProject.ext["james.version"]}")
+  // api("org.apache.james:james-server-queue-jms:${rootProject.james["flink.version"]}")
+  api("org.apache.james:james-server-spring:${rootProject.ext["james.version"]}")
+  api("org.apache.james:james-server-task-memory:${rootProject.ext["james.version"]}")
+  // api("org.apache.james:james-server-util:${rootProject.james["flink.version"]}")
+  // api("org.apache.james:metrics-api:${rootProject.james["flink.version"]}")
+  api("org.apache.james:metrics-dropwizard:${rootProject.ext["james.version"]}")
+  api("org.apache.james:metrics-logger:${rootProject.ext["james.version"]}")
+  // api("org.apache.james.protocols:protocols-imap:${rootProject.james["flink.version"]}")
+  // api("org.apache.james.protocols:protocols-managesieve:${rootProject.james["flink.version"]}")
+  implementation("commons-daemon:commons-daemon:1.2.4")
+  // implementation("org.apache.camel:camel-core:3.14.1")
+  implementation("org.apache.camel:camel-spring:3.14.1")
+  // implementation("org.apache.derby:derby:10.15.2.0")
+  implementation("org.springframework.boot:spring-boot-starter-activemq")
+  implementation("org.springframework.boot:spring-boot-starter-log4j2")
+  implementation("org.springframework.boot:spring-boot-starter-jdbc")
+  implementation("org.springframework.boot:spring-boot-starter-web")
+  // implementation("org.springframework:spring-jms")
+  // implementation("org.apache.xbean:xbean-spring:4.20")
+  implementation("com.google.inject:guice:5.1.0")
+}
+
+configurations {
+  all {
+    implementation{
+      exclude group: "javax.mail", module: "mail"
+      exclude group: "org.apache.hadoop", module: "hadoop-core"
+      exclude group: "ch.qos.logback", module: "logback-classic"
+      exclude group: "org.slf4j", module: "log4j-over-slf4j"
+      exclude group: "org.apache.geronimo.javamail", module: "geronimo-javamail_1.4_mail"
+      exclude group: "com.sun", module: "tools"
+    }
+  }
 }

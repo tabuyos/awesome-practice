@@ -70,3 +70,7 @@ include(":hikaricp:hikaricp-test")
 
 include(":flyway:flyway-test")
 include(":flyway:flyway-quickstart")
+
+include(":javassist:javassist-test")
+
+include(":download:download-test")

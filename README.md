@@ -15,15 +15,16 @@ awesome practice for anything in anywhere with Java
 - [x] Flyway
 - [x] gRpc
 - [x] Dubbo
-- [ ] HikariCP
-- [ ] Istio
-- [ ] K8S
+- [x] HikariCP
 - [ ] Mail
 - [ ] Helidon
 - [ ] Quarkus
 - [ ] Micronaut
 - [ ] Microprofile
+- [ ] Vert.X
 - [ ] Netty
 - [ ] Pulsar
 - [ ] RocketMQ
-- [ ] Vert.X
+- [ ] Javassist
+- [ ] Istio
+- [ ] K8S
