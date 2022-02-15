@@ -1,0 +1,12 @@
+camel:
+  springboot:
+    name: MyCamel
+    main-run-controller: true
+
+greeting: Hello Tabuyos
+
+management:
+  endpoint:
+    camelroutes:
+      enabled: true
+      read-only: true

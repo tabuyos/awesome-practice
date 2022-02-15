@@ -58,8 +58,11 @@ include(":microprofile:microprofile-test")
 
 include(":micronaut:micronaut-test")
 
+include(":quarkus:quarkus-quickstart")
 include(":quarkus:quarkus-test")
 
+include(":helidon:helidon-se-quickstart")
+include(":helidon:helidon-mp-quickstart")
 include(":helidon:helidon-test")
 
 include(":vertx:vertx-test")
@@ -74,3 +77,8 @@ include(":flyway:flyway-quickstart")
 include(":javassist:javassist-test")
 
 include(":download:download-test")
+
+include(":camel:camel-test")
+
+include(":openapi:openapi-quickstart")
+include(":openapi:openapi-test")

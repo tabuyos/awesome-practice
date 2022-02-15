@@ -1,0 +1,5 @@
+subprojects {
+  dependencies {
+    implementation(platform("io.helidon:helidon-dependencies:2.4.2"))
+  }
+}

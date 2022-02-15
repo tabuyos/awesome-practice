@@ -17,7 +17,7 @@ awesome practice for anything in anywhere with Java
 - [x] Dubbo
 - [x] HikariCP
 - [ ] Mail
-- [ ] Helidon
+- [x] Helidon
 - [ ] Quarkus
 - [ ] Micronaut
 - [ ] Microprofile
@@ -25,6 +25,7 @@ awesome practice for anything in anywhere with Java
 - [ ] Netty
 - [ ] Pulsar
 - [ ] RocketMQ
+- [x] Camel
 - [ ] Javassist
 - [ ] Istio
 - [ ] K8S

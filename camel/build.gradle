@@ -1,0 +1,8 @@
+subprojects {
+  dependencies {
+    implementation("org.apache.camel.springboot:camel-spring-boot-starter:3.15.0")
+    implementation("org.apache.camel.springboot:camel-stream-starter:3.15.0")
+    implementation("org.springframework.boot:spring-boot-starter-log4j2")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+  }
+}

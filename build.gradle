@@ -126,7 +126,7 @@ subprojects {
 
   configurations {
     all {
-      implementation.exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+      // implementation.exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }
   }
 
