@@ -1,0 +1,3 @@
+dependencies {
+  implementation(project(":vertx:vertx-rest:d-module"))
+}

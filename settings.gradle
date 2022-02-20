@@ -66,6 +66,11 @@ include(":helidon:helidon-mp-quickstart")
 include(":helidon:helidon-test")
 
 include(":vertx:vertx-test")
+include(":vertx:vertx-gateway")
+include(":vertx:vertx-rest:a-module")
+include(":vertx:vertx-rest:b-module")
+include(":vertx:vertx-rest:c-module")
+include(":vertx:vertx-rest:d-module")
 
 include(":hikaricp:hikaricp-springboot")
 include(":hikaricp:hikaricp-quickstart")
@@ -79,6 +84,9 @@ include(":javassist:javassist-test")
 include(":download:download-test")
 
 include(":camel:camel-test")
+
+include(":guice:guice-quickstart")
+include(":guice:guice-test")
 
 include(":openapi:openapi-quickstart")
 include(":openapi:openapi-test")

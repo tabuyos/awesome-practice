@@ -1,0 +1,5 @@
+dependencies {
+  implementation(project(":vertx:vertx-rest:b-module"))
+  implementation(project(":vertx:vertx-rest:c-module"))
+  implementation(project(":vertx:vertx-rest:d-module"))
+}
