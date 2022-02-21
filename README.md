@@ -18,10 +18,12 @@ awesome practice for anything in anywhere with Java
 - [x] HikariCP
 - [ ] Mail
 - [x] Helidon
-- [ ] Quarkus
+- [x] Quarkus
 - [ ] Micronaut
 - [ ] Microprofile
 - [ ] Vert.X
+- [ ] Reactor
+- [ ] RxJava
 - [ ] Netty
 - [ ] Pulsar
 - [ ] RocketMQ

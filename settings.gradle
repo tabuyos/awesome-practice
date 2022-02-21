@@ -56,15 +56,18 @@ include(":docker:docker-test")
 
 include(":microprofile:microprofile-test")
 
+include(":micronaut:micronaut-quickstart")
 include(":micronaut:micronaut-test")
 
 include(":quarkus:quarkus-quickstart")
+include(":quarkus:quarkus-reactive")
 include(":quarkus:quarkus-test")
 
 include(":helidon:helidon-se-quickstart")
 include(":helidon:helidon-mp-quickstart")
 include(":helidon:helidon-test")
 
+include(":vertx:vertx-quickstart")
 include(":vertx:vertx-test")
 include(":vertx:vertx-gateway")
 include(":vertx:vertx-rest:a-module")
@@ -90,3 +93,7 @@ include(":guice:guice-test")
 
 include(":openapi:openapi-quickstart")
 include(":openapi:openapi-test")
+
+include(":reactor:reactor-test")
+
+include(":rxjava:rxjava-test")

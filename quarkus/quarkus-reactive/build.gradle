@@ -1,0 +1,24 @@
+//file:noinspection GroovyAssignabilityCheck
+plugins {
+  id "io.quarkus" version "2.7.1.Final"
+}
+
+dependencies {
+  implementation(enforcedPlatform("io.quarkus.platform:quarkus-bom:2.7.1.Final"))
+  implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
+  implementation("io.quarkus:quarkus-hibernate-reactive-panache")
+  implementation("io.quarkus:quarkus-resteasy-reactive")
+  implementation("io.quarkus:quarkus-reactive-pg-client")
+  implementation("io.quarkus:quarkus-arc")
+  testImplementation("io.quarkus:quarkus-junit5")
+  testImplementation("io.rest-assured:rest-assured")
+}
+
+compileJava {
+  options.encoding = "UTF-8"
+  options.compilerArgs << "-parameters"
+}
+
+compileTestJava {
+  options.encoding = "UTF-8"
+}

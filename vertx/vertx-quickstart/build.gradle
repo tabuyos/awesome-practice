@@ -1,0 +1,37 @@
+//file:noinspection GroovyAssignabilityCheck
+plugins {
+  id("application")
+  id("com.github.johnrengelman.shadow") version "7.1.1"
+}
+
+application {
+  mainClass.set("io.vertx.core.Launcher")
+}
+
+dependencies {
+  implementation("io.vertx:vertx-web-validation")
+  implementation("io.vertx:vertx-web")
+  implementation("io.vertx:vertx-web-openapi")
+  implementation("io.vertx:vertx-mail-client")
+  implementation("io.vertx:vertx-web-api-contract")
+  implementation("org.slf4j:jul-to-slf4j")
+  implementation("org.apache.logging.log4j:log4j-core")
+  implementation("org.apache.logging.log4j:log4j-jul")
+  implementation("org.apache.logging.log4j:log4j-slf4j-impl")
+  // implementation("org.fusesource.jansi:jansi:2.4.0")
+  testImplementation("io.vertx:vertx-junit5")
+  testImplementation("org.junit.jupiter:junit-jupiter")
+}
+
+shadowJar {
+  archiveClassifier.set("fat")
+  manifest {
+    attributes("Main-Verticle": "com.tabuyos.vertx.quickstart.MainVerticle")
+  }
+  mergeServiceFiles()
+}
+
+run {
+  List<String> appArgs = ["run","com.tabuyos.vertx.quickstart.MainVerticle","--redeploy=src/**/*","--launcher-class=io.vertx.core.Launcher","--on-redeploy=${projectDir}/gradlew classes"]
+  args appArgs
+}

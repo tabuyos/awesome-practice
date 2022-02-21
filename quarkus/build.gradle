@@ -1,0 +1,5 @@
+subprojects {
+  dependencies {
+    implementation(enforcedPlatform("io.quarkus.platform:quarkus-bom:2.7.1.Final"))
+  }
+}

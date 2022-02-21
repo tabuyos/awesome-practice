@@ -9,7 +9,7 @@ ext["junit.version"] = "5.8.2"
 ext["log4j2.version"] = "2.17.1"
 ext["reactor.version"] = "2020.0.14"
 ext["netty.version"] = "4.1.72.Final"
-ext["vertx.version"] = "4.2.3"
+ext["vertx.version"] = "4.2.4"
 ext["flink.version"] = "1.14.3"
 ext["scala.version"] = "2.13.8"
 ext["hbase.version"] = "2.4.9"
@@ -83,15 +83,15 @@ subprojects {
   apply plugin: "java"
   apply plugin: "idea"
 
-  configurations {
-    developmentOnly
-    runtimeClasspath {
-      extendsFrom developmentOnly
-    }
-    compileOnly {
-      extendsFrom annotationProcessor
-    }
-  }
+  // configurations {
+  //   developmentOnly
+  //   runtimeClasspath {
+  //     extendsFrom developmentOnly
+  //   }
+  //   compileOnly {
+  //     extendsFrom annotationProcessor
+  //   }
+  // }
 
   dependencies {
     implementation(
