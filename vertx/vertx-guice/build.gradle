@@ -1,0 +1,4 @@
+dependencies {
+  implementation("io.vertx:vertx-web")
+  implementation("com.google.inject:guice:5.1.0")
+}
