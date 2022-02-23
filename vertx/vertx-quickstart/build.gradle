@@ -31,7 +31,7 @@ shadowJar {
   mergeServiceFiles()
 }
 
-run {
-  List<String> appArgs = ["run","com.tabuyos.vertx.quickstart.MainVerticle","--redeploy=src/**/*","--launcher-class=io.vertx.core.Launcher","--on-redeploy=${projectDir}/gradlew classes"]
-  args appArgs
-}
+// run {
+//   List<String> appArgs = ["run","com.tabuyos.vertx.quickstart.MainVerticle","--redeploy=src/**/*","--launcher-class=io.vertx.core.Launcher","--on-redeploy=${projectDir}/gradlew classes"]
+//   args appArgs
+// }

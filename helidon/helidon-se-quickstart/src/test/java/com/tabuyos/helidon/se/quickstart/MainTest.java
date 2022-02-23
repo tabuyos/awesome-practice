@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * MainTest
  *
- * @author bjliu(a.k.a tabuyos)
+ * @author tabuyos
  * @since 2022/2/14
  */
 class MainTest {
