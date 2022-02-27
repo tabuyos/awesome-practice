@@ -21,7 +21,7 @@ awesome practice for anything in anywhere with Java
 - [x] Quarkus
 - [ ] Micronaut
 - [ ] Microprofile
-- [ ] Vert.X
+- [x] Vert.X
 - [ ] Reactor
 - [ ] RxJava
 - [ ] Netty
