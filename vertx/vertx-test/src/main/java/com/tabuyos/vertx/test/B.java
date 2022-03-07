@@ -14,4 +14,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class B extends AbstractPerson{
 
+  public B() {
+    System.out.println("B:");
+    System.out.println(this.hashCode());
+    sayMan();
+  }
 }

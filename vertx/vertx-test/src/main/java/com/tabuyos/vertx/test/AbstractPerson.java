@@ -21,6 +21,7 @@ public abstract class AbstractPerson {
 
   @PostConstruct
   public final void init() {
+    System.out.println("init");
     man = new Man();
   }
 }

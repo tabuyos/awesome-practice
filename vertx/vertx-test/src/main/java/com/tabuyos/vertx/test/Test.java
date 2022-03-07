@@ -21,5 +21,6 @@ public class Test {
     A bean = context.getBean(A.class);
     bean.sayMan();
     System.out.println(bean.hashCode());
+    context.stop();
   }
 }
