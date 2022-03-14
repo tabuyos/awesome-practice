@@ -102,3 +102,7 @@ include(":openapi:openapi-test")
 include(":reactor:reactor-test")
 
 include(":rxjava:rxjava-test")
+
+include(":eventbus:eventbus-impl")
+include(":eventbus:eventbus-quickstart")
+include(":eventbus:eventbus-test")
