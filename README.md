@@ -24,6 +24,7 @@ awesome practice for anything in anywhere with Java
 - [x] Vert.X
 - [ ] Reactor
 - [ ] RxJava
+- [ ] Redis
 - [ ] Netty
 - [ ] Pulsar
 - [ ] RocketMQ
