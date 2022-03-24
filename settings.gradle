@@ -108,3 +108,9 @@ include(":rxjava:rxjava-test")
 include(":eventbus:eventbus-impl")
 include(":eventbus:eventbus-quickstart")
 include(":eventbus:eventbus-test")
+
+include(":sse:sse-test")
+include(":sse:sse-quickstart")
+
+include(":websocket:websocket-test")
+include(":websocket:websocket-quickstart")

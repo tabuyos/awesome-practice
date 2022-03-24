@@ -22,6 +22,7 @@ awesome practice for anything in anywhere with Java
 - [ ] Micronaut
 - [ ] Microprofile
 - [x] Vert.X
+- [x] EventBus
 - [ ] Reactor
 - [ ] RxJava
 - [ ] Redis
@@ -32,3 +33,5 @@ awesome practice for anything in anywhere with Java
 - [ ] Javassist
 - [ ] Istio
 - [ ] K8S
+- [ ] SSE
+- [ ] WebSocket
