@@ -6,4 +6,10 @@ subprojects {
     implementation("org.springframework.boot:spring-boot-starter-web")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
   }
+
+  configurations {
+    all {
+      implementation.exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+    }
+  }
 }
