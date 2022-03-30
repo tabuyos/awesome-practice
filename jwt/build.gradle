@@ -1,0 +1,14 @@
+//file:noinspection GradlePackageUpdate
+subprojects {
+  dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-log4j2")
+    implementation("com.nimbusds:nimbus-jose-jwt:9.15.2")
+  }
+
+  configurations {
+    all {
+      implementation.exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+    }
+  }
+}

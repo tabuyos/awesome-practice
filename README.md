@@ -26,6 +26,10 @@ awesome practice for anything in anywhere with Java
 - [ ] Reactor
 - [ ] RxJava
 - [ ] Redis
+- [ ] HTTPS
+- [x] Cipher
+- [x] Exception
+- [x] JWT
 - [ ] Netty
 - [ ] Pulsar
 - [ ] RocketMQ

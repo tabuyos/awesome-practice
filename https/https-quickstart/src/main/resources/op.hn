@@ -1,0 +1,8 @@
+openssl genpkey -algorithm RSA -pass pass:tabuyos-private -out private-key.pem -pkeyopt rsa_keygen_bits:2048
+openssl rsa -in private-key.pem -passin pass:tabuyos-private -passout pass:tabuyos-public -pubout -out public-key.pem
+openssl req -new -key private-key.pem -passin pass:tabuyos-private -passout pass:tabuyos-csr -out certificate-signing-request.csr
+openssl x509 -req -days 3650 -in certificate-signing-request.csr -passin pass:tabuyos-csr -signkey private-key.pem -out certificate.crt
+openssl pkcs12 -export -inkey private-key.pem -in certificate.crt -password pass:tabuyos-pkcs12 -out pkcs.p12
+
+keytool -importkeystore -srckeystore pkcs.p12 -srcstorepass tabuyos-pkcs12 -destkeystore tabuyos.keystore -deststoretype pkcs12 -deststorepass tabuyos-keystore -destkeypass tabuyos-keystore
+keytool -importkeystore -srckeystore pkcs.p12 -srcstorepass tabuyos-pkcs12 -destkeystore tabuyos.jks -deststoretype pkcs12 -deststorepass tabuyos-jks -destkeypass tabuyos-jks

@@ -1,0 +1,6 @@
+server:
+  port: 8228
+  ssl:
+    key-store-type: JKS
+    key-store-password: tabuyos-jks
+    key-store: classpath:tabuyos.jks

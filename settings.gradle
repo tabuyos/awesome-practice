@@ -109,6 +109,18 @@ include(":eventbus:eventbus-impl")
 include(":eventbus:eventbus-quickstart")
 include(":eventbus:eventbus-test")
 
+include(":https:https-test")
+include(":https:https-quickstart")
+
+include(":cipher:cipher-test")
+include(":cipher:cipher-quickstart")
+
+include(":exception:exception-test")
+include(":exception:exception-quickstart")
+
+include(":jwt:jwt-test")
+include(":jwt:jwt-quickstart")
+
 include(":sse:sse-test")
 include(":sse:sse-quickstart")
 
