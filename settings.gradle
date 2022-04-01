@@ -121,6 +121,9 @@ include(":exception:exception-quickstart")
 include(":jwt:jwt-test")
 include(":jwt:jwt-quickstart")
 
+include(":caffeine:caffeine-test")
+include(":caffeine:caffeine-quickstart")
+
 include(":sse:sse-test")
 include(":sse:sse-quickstart")
 
