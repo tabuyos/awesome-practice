@@ -93,6 +93,7 @@ include(":download:download-test")
 
 include(":camel:camel-test")
 
+include(":redis:redis-quickstart")
 include(":redis:redis-test")
 
 include(":guice:guice-quickstart")
