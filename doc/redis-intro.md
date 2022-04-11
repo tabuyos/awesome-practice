@@ -252,3 +252,21 @@ set的基础增加顺序score，再根据score进行排序 实战：通过sortse
 - 持久性（Durability）
   - 因为事务不过是用队列包裹起了一组 Redis 命令，并没有提供任何额外的持久性功能，所以事务的持久性由 Redis 所使用的持久化模式决定
 
+##  redis实现分布式集群环境session共享
+
+- cookie与session
+
+  - Cookie是什么？ Cookie 是一小段文本信息，伴随着用户请求和页面在 Web 服务器和浏览器之间传递。Cookie 包含每次用户访问站点时
+
+    Web 应用程序都可以读取的信息，我们可以看到在服务器写的cookie，会通过响应头Set-Cookie的方式写入到浏览器
+
+  - HTTP协议是无状态的，并非TCP一样进行三次握手，对于一个浏览器发出的多次请求，WEB服务器无法区分是不是来源于同一个浏览器。所以服务器为了区分这个过程会通过一个 sessionid来区分请求，而这个sessionid是怎么发送给服务端的呢。cookie相对用户是不可见的，用来保存这个sessionid是最好不过了
+
+- redis实现分布式集群配置过程
+  - org.springframework.session spring-session-data-redis
+  - @EnableRedisHttpSession 开启redis session缓存
+  - maxInactiveIntervalInSeconds指定缓存的时间 spring:session:sessions:expires:+‘sessionId’的过期时间
+- 验证过程
+  - 打开隐身模式清空cookie来验证缓存的时间
+
+> 分布式系统，现在主流采用token的方式作为身份验证，JWT的方案目前比较流行
