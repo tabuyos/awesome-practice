@@ -1,0 +1,6 @@
+subprojects {
+  dependencies {
+    implementation("org.apache.curator:curator-framework:5.2.1")
+    implementation("org.apache.curator:curator-recipes:5.2.1")
+  }
+}

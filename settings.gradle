@@ -130,3 +130,6 @@ include(":sse:sse-quickstart")
 
 include(":websocket:websocket-test")
 include(":websocket:websocket-quickstart")
+
+include(":distributed-locks:distributed-locks-test")
+include(":distributed-locks:distributed-locks-quickstart")
