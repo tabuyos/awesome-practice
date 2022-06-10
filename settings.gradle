@@ -131,5 +131,11 @@ include(":sse:sse-quickstart")
 include(":websocket:websocket-test")
 include(":websocket:websocket-quickstart")
 
+include(":gateway:gateway-test")
+include(":gateway:gateway-quickstart")
+
+include(":skija:skija-test")
+include(":skija:skija-quickstart")
+
 include(":distributed-locks:distributed-locks-test")
 include(":distributed-locks:distributed-locks-quickstart")
