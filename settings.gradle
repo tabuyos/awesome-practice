@@ -102,8 +102,10 @@ include(":guice:guice-test")
 include(":openapi:openapi-quickstart")
 include(":openapi:openapi-test")
 
+include(":reactor:reactor-quickstart")
 include(":reactor:reactor-test")
 
+include(":rxjava:rxjava-quickstart")
 include(":rxjava:rxjava-test")
 
 include(":eventbus:eventbus-impl")

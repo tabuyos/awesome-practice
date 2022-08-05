@@ -1,0 +1,7 @@
+//file:noinspection GradlePackageUpdate
+subprojects {
+  dependencies {
+    implementation(platform("io.projectreactor:reactor-bom:2022.0.0-M4"))
+    implementation("io.projectreactor:reactor-core")
+  }
+}
