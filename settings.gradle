@@ -96,6 +96,8 @@ include(":camel:camel-test")
 include(":redis:redis-quickstart")
 include(":redis:redis-test")
 
+include(":future:future-test")
+
 include(":guice:guice-quickstart")
 include(":guice:guice-test")
 
@@ -141,3 +143,6 @@ include(":skija:skija-quickstart")
 
 include(":distributed-locks:distributed-locks-test")
 include(":distributed-locks:distributed-locks-quickstart")
+
+include(":quartz:quartz-test")
+include(":quartz:quartz-quickstart")
