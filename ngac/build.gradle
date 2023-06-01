@@ -1,0 +1,5 @@
+subprojects {
+  dependencies {
+    implementation("com.github.PM-Master:policy-machine-core:2.0-alpha.10.1")
+  }
+}

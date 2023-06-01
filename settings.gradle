@@ -146,3 +146,9 @@ include(":distributed-locks:distributed-locks-quickstart")
 
 include(":quartz:quartz-test")
 include(":quartz:quartz-quickstart")
+
+include(":ngac:ngac-test")
+include(":ngac:ngac-quickstart")
+
+include(":dysql:dysql-test")
+include(":dysql:dysql-quickstart")

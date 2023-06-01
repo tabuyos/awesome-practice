@@ -40,20 +40,24 @@ allprojects {
     def HUAWEI_PUBLIC_URL = "https://repo.huaweicloud.com/repository/maven/"
 
     maven {
-      url HUAWEI_PUBLIC_URL
-      name "HuaweiPublic"
-    }
-    maven {
-      url TENCENT_PUBLIC_URL
-      name "TencentPublic"
+      url ALIYUN_PUBLIC_URL
+      name "AliyunPublic"
     }
     maven {
       url ALIYUN_CENTRAL_URL
       name "AliyunCentral"
     }
     maven {
-      url ALIYUN_PUBLIC_URL
-      name "AliyunPublic"
+      url "https://jitpack.io"
+      name "jitpack.io"
+    }
+    maven {
+      url HUAWEI_PUBLIC_URL
+      name "HuaweiPublic"
+    }
+    maven {
+      url TENCENT_PUBLIC_URL
+      name "TencentPublic"
     }
     mavenCentral()
     mavenLocal()
