@@ -1,0 +1,115 @@
+{
+  "nodes": [
+    {
+      "id": 2001,
+      "name": "o1",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "id": 4001,
+      "name": "Accounts",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "id": 6001,
+      "name": "branches",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "id": 8001,
+      "name": "branch u1",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "id": 1001,
+      "name": "u1",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "id": 3001,
+      "name": "RBAC",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "id": 5001,
+      "name": "Teller",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "id": 7001,
+      "name": "branch o1",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "id": 1002,
+      "name": "u2",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "id": 5002,
+      "name": "Auditor",
+      "type": "UA",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "sourceID": 2001,
+      "targetID": 4001
+    },
+    {
+      "sourceID": 1001,
+      "targetID": 5001
+    },
+    {
+      "sourceID": 1002,
+      "targetID": 5002
+    },
+    {
+      "sourceID": 2001,
+      "targetID": 7001
+    },
+    {
+      "sourceID": 4001,
+      "targetID": 3001
+    },
+    {
+      "sourceID": 1002,
+      "targetID": 8001
+    },
+    {
+      "sourceID": 1001,
+      "targetID": 8001
+    },
+    {
+      "sourceID": 7001,
+      "targetID": 6001
+    }
+  ],
+  "associations": [
+    {
+      "operations": ["r", "w", "x"],
+      "sourceID": 8001,
+      "targetID": 7001
+    },
+    {
+      "operations": ["r", "x"],
+      "sourceID": 5002,
+      "targetID": 4001
+    },
+    {
+      "operations": ["r", "w"],
+      "sourceID": 5001,
+      "targetID": 4001
+    }
+  ]
+}
