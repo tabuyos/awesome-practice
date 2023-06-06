@@ -3,8 +3,6 @@ import { SimulationNodeDatum } from "d3-force";
 import { useEffect, useRef } from "react";
 import styles from "./app.module.css";
 import graph from "./graph.json";
-// @ts-ignore
-import force from "./force.js";
 
 interface IProps {
   data?: number[];
@@ -49,8 +47,6 @@ const D3App = (props: IProps = { data: [1] }): JSX.Element => {
         .attr("width", width / 2)
         .attr("height", height)
         .style("background", "#FEF5E5");
-
-      force(svg);
 
       // const nodes: INode[] = graph.nodes;
       //
