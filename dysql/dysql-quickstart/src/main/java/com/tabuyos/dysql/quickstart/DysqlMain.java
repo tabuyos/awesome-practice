@@ -12,7 +12,7 @@ public class DysqlMain {
 
   public static void main(String[] args){
     SqlBuilder sb = () -> {
-
+      SelectContext select = new SelectContext();
     };
   }
 }
