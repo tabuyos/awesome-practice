@@ -152,3 +152,6 @@ include(":ngac:ngac-quickstart")
 
 include(":dysql:dysql-test")
 include(":dysql:dysql-quickstart")
+
+include(":survey:survey-test")
+include(":survey:survey-quickstart")
