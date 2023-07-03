@@ -155,3 +155,6 @@ include(":dysql:dysql-quickstart")
 
 include(":survey:survey-test")
 include(":survey:survey-quickstart")
+
+include(":doit:doit-test")
+include(":doit:doit-quickstart")
