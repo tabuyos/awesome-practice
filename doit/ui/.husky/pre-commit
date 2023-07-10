@@ -1,0 +1,5 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "current dir: $(pwd)"
+npx lint-staged --cwd ui
