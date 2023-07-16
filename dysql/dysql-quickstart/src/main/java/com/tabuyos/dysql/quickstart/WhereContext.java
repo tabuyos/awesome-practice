@@ -8,4 +8,16 @@ package com.tabuyos.dysql.quickstart;
  * @author tabuyos
  * @since 2023/6/20
  */
-public class WhereContext {}
+public interface WhereContext {
+  void cond(String condition);
+
+  void and(String condition);
+
+  void and(Runnable runnable);
+
+  void or(String condition);
+
+  void or(Runnable runnable);
+
+  void cond(String condition, Object... parameters);
+}

@@ -2,17 +2,18 @@
  * copyright(c) 2018-2023 tabuyos all right reserved.
  */
 package com.tabuyos.dysql.quickstart;
+
+import java.util.function.Consumer;
+
 /**
  * SqlBuilder
  *
  * @author tabuyos
  * @since 2023/5/31
  */
-@FunctionalInterface
 public interface SqlBuilder {
-  void dosql();
+  SqlBuilder select(Consumer<SelectContext> ctxCme);
 
-  default void select(String field) {
-    System.out.println(field);
-  }
+  SqlBuilder from(Consumer<FromContext> ctxCme);
+  SqlBuilder where(Consumer<WhereContext> ctxCme);
 }

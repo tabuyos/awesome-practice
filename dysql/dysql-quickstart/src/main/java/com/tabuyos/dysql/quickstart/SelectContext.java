@@ -8,4 +8,8 @@ package com.tabuyos.dysql.quickstart;
  * @author tabuyos
  * @since 2023/6/20
  */
-public class SelectContext {}
+public interface SelectContext {
+  void col(String col);
+
+  void fun(String fun);
+}

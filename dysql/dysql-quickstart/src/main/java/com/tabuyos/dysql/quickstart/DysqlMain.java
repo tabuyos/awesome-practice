@@ -8,13 +8,30 @@ package com.tabuyos.dysql.quickstart;
  * @author tabuyos
  * @since 2023/5/31
  */
+@SuppressWarnings("DataFlowIssue")
 public class DysqlMain {
 
   public static void main(String[] args){
-    SqlBuilder sb = () -> {
-      SelectContext select = new SelectContext();
-      FromContext from = new FromContext();
-      WhereContext where = new WhereContext();
-    };
+    SqlBuilder sb = null;
+
+    sb.select(ctx -> {
+      ctx.col("name");
+      ctx.fun("length(code)");
+    }).from(ctx -> {
+      ctx.table("course");
+      ctx.join("student", "course.sid = student.id");
+      ctx.leftJoin("", "");
+      ctx.rightJoin("", "");
+    }).where(ctx -> {
+      ctx.cond("student.score = ?", 12);
+      ctx.and(() -> {
+        // and
+        ctx.cond("course.code in (?, ?)", "A1", "B2");
+      });
+      ctx.or(() -> {
+        // or
+        ctx.cond("course.code in (?, ?)", "A1", "B2");
+      });
+    });
   }
 }

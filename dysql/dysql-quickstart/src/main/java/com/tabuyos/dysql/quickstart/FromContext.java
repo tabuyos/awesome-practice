@@ -8,4 +8,12 @@ package com.tabuyos.dysql.quickstart;
  * @author tabuyos
  * @since 2023/6/20
  */
-public class FromContext {}
+public interface FromContext {
+  void table(String name);
+
+  void join(String name, String condition);
+
+  void leftJoin(String name, String condition);
+
+  void rightJoin(String name, String condition);
+}
