@@ -16,4 +16,6 @@ public interface SqlBuilder {
 
   SqlBuilder from(Consumer<FromContext> ctxCme);
   SqlBuilder where(Consumer<WhereContext> ctxCme);
+
+  String sql();
 }
